@@ -91,7 +91,7 @@ int BFS_DeleteFromList(){
 void BFS_Run(int vertexNum, int fromVertex){
 	int i;
 	int v = fromVertex;
-	dist[v] = 0; // A distância do primeiro vértice inicial sempre será zero.
+	distance[v] = 0; // A distância do primeiro vértice inicial sempre será zero.
 	BFS_ListInsert(v, vertexNum); // Insere o primeiro vértice encontrado na lista de busca.
 	status[v] = GREY; // Seu status recebe GREY, já que ele foi encontrado.
 	while(!BFS_EmptyList()){
