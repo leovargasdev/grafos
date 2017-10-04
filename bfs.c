@@ -138,11 +138,11 @@ void BFS_Process(int vertexNum, int fromVertex, int backtrackingIndex){
 	BFS_Initialize(vertexNum); // Inicializando todos os controles da BFS.
 	BFS_Run(vertexNum, fromVertex); // Executando a BFS a partir do vértice inicial.
     // Printando a TABELA final:
-    printf("\n[T] Vértice:");
+    printf("\n[T] Vértice:         ");
 	for(int i = 0; i < vertexNum; i++){
 		printf(" %2c", numVertex[i]);
 	}
-    printf("\n[T] Distância:");
+    printf("\n[T] Distância:       ");
 	for(int k = 0; k < vertexNum; k++){
 		printf(" %2d", distance[k]);
 	}
