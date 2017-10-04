@@ -162,6 +162,6 @@ int main(void)
 	printf("[S] Iniciando o Programa:\n");
 	printf("[1] Executando os Processos da BFS para o Grafo 1:\n");
 	BFS_Process(graphNumVertex, 0, 20);
-	printf("[E] Final da Execução do Programa.\n");
+	printf("\n\n[E] Final da Execução do Programa.\n");
 	return 0;
 }
