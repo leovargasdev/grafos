@@ -14,6 +14,7 @@
 // DEFINES:
 #define INFINITE 123456789 // Definição de Infinito para uso como custo máximo. (MAIOR_CUSTO_POSSIVEL)
 #define VERTEX_NUM 21 // Definição do número de vértices do grafo que será processado pela BFS. (BFS_NUM_VERTICES)
+#define vFinal 10
 #define WHITE 1 // Definição da cor Branca. (BRANCO)
 #define GREY 2 // Definição da cor Cinza. (CINZA)
 #define BLACK 3 // Definição da cor Preta. (PRETO)
@@ -109,12 +110,12 @@ void BFS_Initialize(){
 	}
 }
 
-void BFS_Backtracking(int vertex){
-	int size = distance[vertex]; // Size recebe a distância do vértice até o vértice inicial.
+void BFS_Backtracking(){
+	int size = distance[vFinal]; // Size recebe a distância do vértice até o vértice inicial.
     int i;
-	char auxList[size - 1]; // Lista auxiliar para navegação.
-	int previous = previousVertex[vertex]; // O vértice anterior do atual é armazenado na variável auxiliar.
-	printf("\n[B] Vértice: %c. Backtracking: %c ", numVertex[vertex], numVertex[vertex]);
+	char auxList[size]; // Lista auxiliar para navegação.
+	int previous = previousVertex[vFinal]; // O vértice anterior do atual é armazenado na variável auxiliar.
+	printf("\n[B] Vértice: %c. Backtracking: %c ", numVertex[vFinal], numVertex[vFinal]);
 	for(i = 0; i < size; i++){
 		auxList[i] = numVertex[previous]; // A lista sempre receberá o vértice anterior do vértice anterior, possibilitando o backtracking.
 		previous = previousVertex[previous];
@@ -123,7 +124,7 @@ void BFS_Backtracking(int vertex){
 		printf("<- %c ", auxList[i]); // Imprime os vértices na sequencia inversa.
 }
 
-void BFS_Process(int vertexNum, int fromVertex, int backtrackingIndex){
+void BFS_Process(int vertexNum, int fromVertex){
 	BFS_Initialize(); // Inicializando todos os controles da BFS.
 	BFS_Run(vertexNum, fromVertex); // Executando a BFS a partir do vértice inicial.
     // Printando a TABELA final:
@@ -138,14 +139,12 @@ void BFS_Process(int vertexNum, int fromVertex, int backtrackingIndex){
 		printf(" %2c", numVertex[previousVertex[j]]);
 	printf("\n");
     // Printando o Backtracking da execução da BFS:
-	BFS_Backtracking(backtrackingIndex);
+	BFS_Backtracking();
 }
-
-// FUNÇÃO MAIN:
 int main(void){
 	printf("[S] Iniciando o Programa:\n");
 	printf("[1] Executando os Processos da BFS para o Grafo 1:\n");
-	BFS_Process(VERTEX_NUM, 0, 20);
+	BFS_Process(VERTEX_NUM, 0);
 	printf("\n\n[E] Final da Execução do Programa.\n");
 	return 0;
 }
