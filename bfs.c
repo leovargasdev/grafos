@@ -13,23 +13,24 @@
 
 // DEFINES:
 #define INFINITE 123456789 // Definição de Infinito para uso como custo máximo. (MAIOR_CUSTO_POSSIVEL)
-#define VERTEX_NUM 21 // Definição do número de vértices do grafo que será processado pela BFS. (BFS_NUM_VERTICES)
+#define nVertices 21 // Definição do número de vértices do grafo que será processado pela BFS. (BFS_NUM_VERTICES)
+#define vInicial 0
 #define vFinal 10
 #define WHITE 1 // Definição da cor Branca. (BRANCO)
 #define GREY 2 // Definição da cor Cinza. (CINZA)
 #define BLACK 3 // Definição da cor Preta. (PRETO)
 
 // VARIÁVEIS DE CONTROLE DO PROGRAMA:
-char numVertex[VERTEX_NUM] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','z'};
+char numVertex[nVertices] = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','z'};
 int end = -1;
 int top = -1;
-int distance[VERTEX_NUM];
-int previousVertex[VERTEX_NUM];
-int status[VERTEX_NUM];
-int list[VERTEX_NUM];
+int distance[nVertices];
+int previousVertex[nVertices];
+int status[nVertices];
+int list[nVertices];
 
 // REPRESENTAÇÃO DO GRAFO 01:
-int ADJ_Graph[VERTEX_NUM][VERTEX_NUM] = {
+int ADJ_Graph[nVertices][nVertices] = {
 	//   A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  Z
 		{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // A
 		{1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // B
@@ -55,8 +56,8 @@ int ADJ_Graph[VERTEX_NUM][VERTEX_NUM] = {
 	};
 
 // FUNÇÕES DE CONTROLE DO ALGORITMO BFS:
-void BFS_ListInsert(int vertex, int vertexNum){
-	if(end == vertexNum - 1){
+void BFS_ListInsert(int vertex){
+	if(end == nVertices - 1){
 		printf("[E] List Overflow.\n"); // Não é possível inserir na fila um número maior de vértices que o número máximo de vértices do grafo.
     } else {
 		if(top == -1)
@@ -83,17 +84,17 @@ int BFS_DeleteFromList(){
 	return itemToDelete; // Retorna o elemento que será deletado.
 }
 
-void BFS_Run(int vertexNum, int fromVertex){
-	int i, v = fromVertex;
+void BFS_Run(){
+	int i, v = vInicial;
 	distance[v] = 0; // A distância do primeiro vértice inicial sempre será zero.
-	BFS_ListInsert(v, vertexNum); // Insere o primeiro vértice encontrado na lista de busca.
+	BFS_ListInsert(vInicial); // Insere o primeiro vértice encontrado na lista de busca.
 	status[v] = GREY; // Seu status recebe GREY, já que ele foi encontrado.
 	while(!BFS_EmptyList()){
 		v = BFS_DeleteFromList(); // Remove o vértice atual da lista.
 		status[v] = BLACK; // Marca o elemento como BLACK, pois já foi vizitado.
-		for(i = 0; i < vertexNum; i++){
+		for(i = 0; i < nVertices; i++){
 			if(ADJ_Graph[v][i] == 1 && status[i] == WHITE){
-				BFS_ListInsert(i, vertexNum);
+				BFS_ListInsert(i);
 				status[i] = GREY; // Quando encontrado, é marcado como GREY.
 				previousVertex[i] = v;
 				distance[i] = distance[v] + 1; // Como o grafo não possui carga nas arestas, a distância sempre será incrementada em 1.
@@ -104,7 +105,7 @@ void BFS_Run(int vertexNum, int fromVertex){
 }
 
 void BFS_Initialize(){
-	for(int v = 0; v < VERTEX_NUM; v++){
+	for(int v = 0; v < nVertices; v++){
 		status[v] = WHITE; // Inicialmente, todos os vértices são marcados como WHITE.
 		previousVertex[v] = distance[v] = -1; // Todas as distâncias e os vértices são zerados. -1 significa que ainda não sofreu nenhuma alteração.
 	}
@@ -124,18 +125,18 @@ void BFS_Backtracking(){
 		printf("<- %c ", auxList[i]); // Imprime os vértices na sequencia inversa.
 }
 
-void BFS_Process(int vertexNum, int fromVertex){
+void BFS_Process(){
 	BFS_Initialize(); // Inicializando todos os controles da BFS.
-	BFS_Run(vertexNum, fromVertex); // Executando a BFS a partir do vértice inicial.
+	BFS_Run(); // Executando a BFS a partir do vértice inicial.
     // Printando a TABELA final:
     printf("\n[T] Vértice:         ");
-	for(int i = 0; i < vertexNum; i++)
+	for(int i = 0; i < nVertices; i++)
 		printf(" %2c", numVertex[i]);
     printf("\n[T] Distância:       ");
-	for(int k = 0; k < vertexNum; k++)
+	for(int k = 0; k < nVertices; k++)
 		printf(" %2d", distance[k]);
     printf("\n[T] Vértice Anterior:");
-	for(int j = 0; j < vertexNum; j++)
+	for(int j = 0; j < nVertices; j++)
 		printf(" %2c", numVertex[previousVertex[j]]);
 	printf("\n");
     // Printando o Backtracking da execução da BFS:
@@ -144,7 +145,7 @@ void BFS_Process(int vertexNum, int fromVertex){
 int main(void){
 	printf("[S] Iniciando o Programa:\n");
 	printf("[1] Executando os Processos da BFS para o Grafo 1:\n");
-	BFS_Process(VERTEX_NUM, 0);
+	BFS_Process();
 	printf("\n\n[E] Final da Execução do Programa.\n");
 	return 0;
 }
