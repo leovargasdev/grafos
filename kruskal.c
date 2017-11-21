@@ -1,4 +1,4 @@
-// ALGORITMO DIJKSTRA:
+// ALGORITMO KRUSKAL:
 #include <stdio.h>
 #include <stdbool.h>
 // Exemplo: Trabalho Questão 01:

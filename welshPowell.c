@@ -1,12 +1,12 @@
-// ALGORITMO PRIM:
+// Data: 21/11/2017
+// ALGORITMO WELSH POWELL:
 #include <stdio.h>
 #include <stdbool.h>
-#define AZUL 1
-#define CINZA 2
-#define VERDE 3
 #define pneu 11 //numero de vertices
-int graus[pneu]; // result[][0] = custo, esult[][1] = v. anterior
+int pintar = 1;
+int graus[pneu];
 int cor[pneu];
+char vertices[pneu] = {'A','B','C','D','E','F','G','H','I','J','K'};
 int matrix[pneu][pneu] = {
                                 {0,1,0,0,0,0,0,1,0,0,0},
                                 {1,0,0,1,0,0,0,0,0,0,0},
@@ -19,11 +19,18 @@ int matrix[pneu][pneu] = {
                                 {0,0,0,1,0,0,0,1,0,1,0},
                                 {0,0,0,0,0,0,0,1,1,0,1},
                                 {0,0,0,1,1,0,1,1,0,1,0}};
-void achaGraus(){
+void achaGr4ul(){
     for(int a = 0; a < pneu; a++)
         for(int k = 0; k < pneu; k++)
             if(matrix[a][k] == 1)
                 graus[a]++;
+}
+int pintarV(int caraParaPintar){
+    for(int j = 0; j < pneu; j++)
+        if(matrix[caraParaPintar][j])
+            if(cor[j] == pintar)
+                return pintar + 1;
+    return pintar;
 }
 void welshPowell(){
     int v, aux;
@@ -35,44 +42,26 @@ void welshPowell(){
                     v = a;
                     aux = graus[a];
                 }
-        if(cor[v] == 0){
-            for(int t = 0; t < pneu; t++)
-                matrix[v][t]
-        }
-
+        if(cor[v] == 0)
+            cor[v] = pintar;
+        else break; //todos os vertices estão pintados
+        for(int y = 0; y < pneu; y++)
+            if(matrix[v][y] == 0 && cor[y] == 0)
+                cor[y] = pintarV(y);
+        pintar++;
     }while(true);
 }
 int main(){
     for(int g = 0; g < pneu; g++)
         cor[g] = graus[g] = 0;
-    achaGraus();
-    printf("graus: \n");
+    achaGr4ul(); // funcção do GR4UL
+    welshPowell();
     for(int a = 0; a < pneu; a++){
-        printf("(%d, %d)\n", a+1, graus[a]);
+        printf("vertice(%c), ", vertices[a]);
+        if(cor[a] == 1) printf("cor: azul\n");
+        else if(cor[a] == 2) printf("cor: cinza\n");
+        else if(cor[a] == 3) printf("cor: amarelo\n");
+        else printf("cor: vermelho\n");
     }
-    // welshPowell();
-
-
-
-
-
-
-
-
-
-    // printf("Caminho: ");
-    // for(int a = 0; a < espelho; a++){
-    //     printf("(%d, %d), ", a, result[a][1]);
-    // }
-    // printf("\n\nTABELA:\nvertices   : ");
-    // for(int a = 0; a < espelho; a++)
-    //     printf("%3d  |", a);
-    // printf("\ndistancia  : ");
-    // for(int a = 0; a < espelho; a++)
-    //     printf("%3d  |", result[a][0]);
-    // printf("\nv. anterior: ");
-    // for(int a = 0; a < espelho; a++)
-    //     printf("%3d  |", result[a][1]);
-    // printf("\n\n");
     return 0;
 }
